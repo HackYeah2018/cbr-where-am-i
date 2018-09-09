@@ -69,7 +69,7 @@ export class DetailsScreen extends Component {
       this.state.markers.response.docs.map((item, index)=> {
         return <MapView.Marker
           key={index}
-          title={item.TYPE ? item.TYPE : this.props.navigation.state.params.title}
+          title={item.TYPE ? (item.TYPE != item.CATEGORY ? item.CATEGORY + ' ' : '') + item.TYPE : this.props.navigation.state.params.title}
           description={this.props.navigation.state.params.description}
           pinColor={'blue'}
           coordinate={{latitude: item.LATITUDE, longitude: item.LONGITUDE}}
@@ -86,6 +86,8 @@ export class DetailsScreen extends Component {
   render() {
     const options = this.props.navigation.state.params.options
     
+    //return <View></View>;
+
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
 
@@ -105,7 +107,8 @@ export class DetailsScreen extends Component {
               style.backgroundColor = '#aac'
             }
             return <TouchableOpacity
-            onPress={()=>{ this.setState({selected: (this.state.selected === idx ? false : idx)}); this.subData(opt) }}
+            onPress={()=>{ 
+              this.setState({selected: (this.state.selected === idx ? false : idx)});                   this.subData(opt) }}
             style={{...style, ...{height: 60, flex: 1, alignItems: 'center', alignContent: 'center', flexDirection: 'row'}}}>
                   <View style={{flex: 1, alignContent: 'center', alignItems: 'center', flexDirection: 'row'}}>{opt.icon}</View></TouchableOpacity>
           })}

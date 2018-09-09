@@ -2,7 +2,7 @@
 // react-navigation...
 
 import React, { Component } from 'react';
-import { View, Text, TextInput, Image, StyleSheet, NativeModules, LayoutAnimation } from 'react-native';
+import { Button as RNButton, View, Text, TextInput, Image, StyleSheet, NativeModules, LayoutAnimation, TouchableOpacity } from 'react-native';
 import { StackNavigator } from 'react-navigation'; // Version can be specified in package.json
 
 import { Constants, MapView, Location, Permissions } from 'expo';
@@ -29,11 +29,11 @@ const buttons = [
   {icon: <Entypo raised name='air' type={'entypo'} style={{paddingTop: 3, fontSize: 20}} color='#fff'/>, 
     title: 'Family',
     description: 'Please the facility...',
-    text: 'BBQ,  Dog Parks',
-    url: '/act_sport_grounds_locations/query?f=type:*&rows=1000&q=',
+    text: 'BBQ, Playground',
+    url: '/act_sport_grounds_locations/query?rows=1000&q=',
     options: [
-      {icon: iconName('BBQ'), type: 'CATEGORY:BBQ'},
-      {icon: iconName('Skate Parks'), type: 'CATEGORY:"Skate%20Park"'},
+      {icon: iconName('BBQ'), type: 'CATEGORY:"BBQ"'},
+      {icon: iconName('Playground'), type: 'CATEGORY:"Playground"'},
     ]    
   },
   {icon: <View style={{flexDirection: 'row'}}><Ionicons raised name='md-man' style={{paddingTop: 3, fontSize: 20}} color='#fff'/><Ionicons raised name='md-woman' style={{paddingTop: 3, paddingLeft: 2, fontSize: 20}} color='#fff'/></View>, 
@@ -42,7 +42,7 @@ const buttons = [
     url: '/act_amenities/query?rows=1000&q=',
     description: 'Please rate your experience...',
     options: [
-      {icon: iconName('Drink Fountains'), type: 'CATEGORY:"Drink Fountain"'},
+      {icon: iconName('Drinking Fountains'), type: 'CATEGORY:"Drinking Fountain"'},
       {icon: iconName('Toilets'), type: 'CATEGORY:Toilet'}
     ]
   },
@@ -60,11 +60,11 @@ const buttons = [
     title: 'Recycling',
     text: 'Batteries, Lightbulbs, Soft Plastics',
     description: 'Please rate this facility...',
-    url: '/recycling/query?f=type:*&rows=1000&q=',    
+    url: '/act_recycling/query?f=type:*&rows=1000&q=',    
     options: [
-      {icon: iconName('Batteries'), type: 'CATEGORY:"Batteries"'},
+      {icon: iconName('Batteries'), type: 'CATEGORY:"Battery Disposal"'},
       {icon: iconName('Lightbulbs'), type: 'CATEGORY:"Lightbulbs"'},
-      {icon: iconName('Lightbulbs'), type: 'CATEGORY:"Soft Plastics'}
+      {icon: iconName('Soft Plastics'), type: 'CATEGORY:"Soft Plastics'}
     ]
   }  
 
@@ -122,14 +122,19 @@ class HomeScreen extends Component {
           <Text style={{textAlign: 'center', fontSize:25, width: '100%', color:'white'}}>I want to find:</Text>
           {this.state.buttons.map(button=>{
             const { icon, title, text } = button
+
             return (
               <View style={{opacity: 0.8, paddingTop: 15}}>
-                <Button 
-                  title={<View><View style={{flexDirection: 'row', width:'100%', alignItems: 'center'}}>
-                    {icon}<Text style={{paddingLeft: 10, fontSize:20, color: '#fff'}}>{title}</Text></View>{text && <Text style={{color: 'white'}}>{text}</Text>}</View>} 
-                  borderRadius={5} backgroundColor={'#f44'} fontSize={20}
-                  onPress={()=>navigate('Details', button)} 
-                />
+                  <TouchableOpacity 
+                    onPress={()=>navigate('Details', button)}
+                    style={{marginLeft: 15, marginRight: 15, backgroundColor: '#f44', padding: 15, borderRadius: 5}}
+                    >
+                  <View>
+                    <View style={{flexDirection: 'row', width:220, alignItems:'center'}}>
+                      {icon}
+                      <Text style={{paddingLeft: 10, fontSize:20, color: '#fff'}}>{title}</Text></View>{text && <Text style={{color: 'white'}}>{text}</Text>}</View>
+                  </TouchableOpacity>              
+                
               </View>
             )
           })}
